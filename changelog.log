@@ -1,0 +1,22 @@
+V1.1:
+- NEW COMMANDS ADDED:
+ - /bulkaddroles <roles> <emotes> <messagelink>
+   Will allow for the mass adding of roles/reactions to a message
+ - /getroles <messagelink>
+   Allows a user to receive a list of all reactions/roles associated with a message
+ - /generateroles <rolenames> [colour]
+   Allows for the quick creation of basic roles with default permissions. Has the option to accept an r,g,b or #hex colour variable
+
+- NEW CONFIG STUFF:
+ - Unique configs for each server. A "config-<server id>.json" is generated upon the bot joining
+ - "Priority Order" variable, allows for the choice between random tie breakers or if alphabetical should be used
+ - "Role Manager Handles", "Role Manager Roles", "Channel Manager Handles", "Channel Manager Roles" has replaced "Moderator handles"
+ - configs.json and channels.json are checked upon boot to see if any data is missing. Missing data is replaced while maintaining things that are intact
+
+- Other lil bits:
+ - Allow the use of emotes from other servers the bot is in
+ - Kept backwards compatibility for old emote id method
+ - Admins now override moderator handles
+ - Command names now appear in log terminal
+ - Added permission check for adding/removing channels from the bot check list
+ - messages that have their last reaction/role removed via /removerole get deleted from channels.json

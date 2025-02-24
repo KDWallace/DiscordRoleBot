@@ -4,9 +4,10 @@ from discord import app_commands, Member, VoiceState, VoiceChannel, HTTPExceptio
 from discord.app_commands import TransformerError
 from discord.ext import commands
 
-from core.core import *
+from src.core.core import setup
 from src.core.util import approved_role_user, approved_channel_user, get_config, check_config_integrity, \
-    save_config, edit_voice_status
+    save_config, edit_voice_status, logger
+from src.core.update import __VERSION__, update_routine, check_version
 
 # stores the intents for the bot to use. To make full use of this, some of the intents must be set in the developers
 # portal for discord
@@ -69,13 +70,15 @@ async def on_ready():
     for command in synced:
         print(f'\t\t/{command}')
 
-    print(f'   - {client.user.name} is online!\n', '-' * 76)
+    logger(f' - {client.user.name} is online!')
+    print('-' * 76, "\nSource: https://github.com/KDWallace/DiscordRoleBot/")
+    await client.loop.create_task(update_routine(client))
 
 
 @client.event
 async def on_guild_join(guild: Guild):
     """Function for joining new server. Used to create a new config file"""
-    print(f'Joined guild: {guild.name}\n - Generating file "configs-{guild.id}.json"...', end='')
+    logger(f'Joined guild: {guild.name}\n - Generating file "configs-{guild.id}.json"...', end='')
     check_config_integrity(f'configs-{guild.id}', guild.name)
     print('Done')
 
@@ -169,7 +172,6 @@ async def addchannel(interaction: discord.Interaction, channel: VoiceChannel):
         save_config('channels', config_channels)
         await edit_voice_status(channel)
         await interaction.response.send_message(f'The channel {channel.mention} has been whitelisted', ephemeral=True)
-
 
 
 # @addchannel.error
@@ -445,7 +447,8 @@ async def getroles(interaction: discord.Interaction,
                    messagelink: str):
     config_data = get_config('channels')
     if messagelink not in config_data['Role Bot'] or not config_data['Role Bot'][messagelink]:
-        await interaction.response.send_message('There does not appear to be any data associated with this message', ephemeral=True)
+        await interaction.response.send_message('There does not appear to be any data associated with this message',
+                                                ephemeral=True)
         return
     message = '# Roles:\n'
     for role in config_data['Role Bot'][messagelink]['Roles']:
@@ -485,6 +488,20 @@ async def generateroles(interaction: discord.Interaction, roles: str, colour: st
             role = await interaction.guild.create_role(name=r)
         message += f'- {role.mention}\n'
     await interaction.response.send_message(message, ephemeral=True)
+
+
+@app_commands.check(approved_role_user)
+@client.tree.command(name="checkupdate", description='Compare the bot to the latest version available.')
+async def checkupdate(interaction: discord.Interaction):
+    git_version = check_version()
+    if git_version != __VERSION__:
+        await interaction.response.send_message(f'# Update Found\n'
+                                                f'Current version: `{__VERSION__}`\n'
+                                                f'Version available: `{git_version}`\n'
+                                                f'The latest version has been downloaded.\n'
+                                                f'Please install the latest instance available', ephemeral=True)
+    else:
+        await interaction.response.send_message(f'Current version: `{__VERSION__}` is up to date', ephemeral=True)
 
 
 if __name__ == '__main__':

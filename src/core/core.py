@@ -3,11 +3,11 @@ import os
 import sys
 from datetime import datetime
 
+from src.core.update import __VERSION__
+from src.core.util import logger
+
 # Main path for DIR navigation for files/config
 PATH = (os.path.dirname(os.path.realpath(__file__)))[:-8]
-
-# for checking version
-__VERSION__ = "1.1"
 
 
 def setup(client):
@@ -20,7 +20,7 @@ def setup(client):
 
     # if no arguments were passed (by most likely using an IDE), use this string as the title
     else:
-        version = 'Moose\'s Bot'
+        version = 'Moose\'s Bot version: ' + __VERSION__
 
     # Basic display
     length = 75 - len(version)
@@ -28,11 +28,11 @@ def setup(client):
         length = int(length / 2)
     else:
         length = 0
-    print('', '=' * length, version, '=' * length,
-          f'\n   - Booted at {datetime.now().strftime("%H:%M:%S")}\n   - Please wait...')
+    print(('=' * length) + f' {version}' + ('=' * length) + f'\n   - Booted at {datetime.now().strftime("%H:%M:%S")}\n'
+                                                            f'   - Please wait...')
 
     # get bot token
-    print('        Obtaining token from textfile...', end='')
+    logger('        Obtaining token from textfile...', end='')
     try:
         # opens file containing bot token
         with open(f'{PATH}/src/TOKEN.txt', 'r') as f:
@@ -61,19 +61,19 @@ def setup(client):
 def check_dir(*dirs):
     """Function for checking for the existence of necessary directories within the program files.
     Will attempt to generate any that are absent"""
-    print('Checking for required directories:')
+    logger('Checking for required directories:')
     for dir_name in dirs:
         if not os.path.isdir(f'{PATH}/{dir_name}'):
-            print(f'\t - Missing required path: "{PATH}{dir_name}"\nAttempting to create missing path...', end='')
+            logger(f'\t - Missing required path: "{PATH}{dir_name}"\nAttempting to create missing path...', end='')
             os.makedirs(f'{PATH}{dir_name}\\')
             print('path created')
         else:
-            print(f'\t - Path "{PATH}{dir_name}" found')
+            logger(f'\t - Path "{PATH}{dir_name}" found')
 
 
 # function if the wrong file is run as the main
 def incorrectModuleAsMain():
-    print('This python file should not be used as the main file. Please run "Bot.py" to use this bot')
+    logger('This python file should not be used as the main file. Please run "Bot.py" to use this bot')
 
 
 if __name__ == '__main__':

@@ -2,11 +2,12 @@ import json
 import math
 import os
 import random
+from datetime import datetime
 
 import discord
 from discord import Member, VoiceChannel
 
-from src.core.core import PATH
+import src.core.core as core
 
 
 def approved_role_user(interaction: discord.Interaction) -> bool:
@@ -42,8 +43,8 @@ def check_approved_user(interaction: discord.Interaction, user_check_type: str) 
 
 def get_config(filename: str) -> dict:
     """Obtains config file. Will generate missing files if none are present"""
-    if os.path.isfile(f'{PATH}/config/{filename}.json'):
-        with open(f'{PATH}/config/{filename}.json', 'r', encoding='utf-8') as f:
+    if os.path.isfile(f'{core.PATH}/config/{filename}.json'):
+        with open(f'{core.PATH}/config/{filename}.json', 'r', encoding='utf-8') as f:
             return json.load(f)
     else:
         return check_config_integrity(filename)
@@ -67,7 +68,7 @@ def check_config_entry(data: dict, entries: str | tuple | list, filename: str, s
     # iterate through list, upon a single missing entry, generate all missing data
     for entry in entries:
         if entry not in data:
-            print(f'Missing entry "{entry}" in {filename}.json. Adding missing entries to the file')
+            logger(f'Missing entry "{entry}" in {filename}.json. Adding missing entries to the file')
             return check_config_integrity(filename, servername, entry)
     return data
 
@@ -102,10 +103,10 @@ def check_config_integrity(filename: str, servername: str = None, entry: str = N
         raise FileNotFoundError(f'The file "{filename}" is not a recognised type')
 
     # if the file exists
-    if os.path.isfile(f'{PATH}/config/{filename}.json'):
+    if os.path.isfile(f'{core.PATH}/config/{filename}.json'):
 
         # read the file and check for missing entries. If any present then change = True
-        with open(f'{PATH}/config/{filename}.json', 'r') as f:
+        with open(f'{core.PATH}/config/{filename}.json', 'r') as f:
             old_data = json.load(f)
 
         change = False
@@ -121,7 +122,7 @@ def check_config_integrity(filename: str, servername: str = None, entry: str = N
 
     # if changes have been made, overwrite the file with the modified data
     if change:
-        with open(f'{PATH}/config/{filename}.json', 'w') as f:
+        with open(f'{core.PATH}/config/{filename}.json', 'w') as f:
             json.dump(old_data, f, indent=4)
 
     if entry and entry not in old_data:
@@ -132,7 +133,7 @@ def check_config_integrity(filename: str, servername: str = None, entry: str = N
 
 def save_config(filename: str, data: dict):
     """Saves to json config file"""
-    with open(f'{PATH}/config/{filename}.json', 'w', encoding='utf-8') as f:
+    with open(f'{core.PATH}/config/{filename}.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4)
 
 
@@ -230,3 +231,7 @@ async def edit_voice_status(channel: VoiceChannel):
     return_string += f' {percent}% {role}'
 
     await channel.edit(status=return_string)
+
+
+def logger(message: str, end: str = '\n'):
+    print(datetime.now().strftime("%H:%M:%S"), '\t', message, end=end)

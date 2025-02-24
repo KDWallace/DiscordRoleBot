@@ -6,6 +6,8 @@ V1.1:
    Allows a user to receive a list of all reactions/roles associated with a message
  - /generateroles <rolenames> [colour]
    Allows for the quick creation of basic roles with default permissions. Has the option to accept an r,g,b or #hex colour variable
+ - /checkupdate
+   Forces a check for more recent versions of the bot
 
 - NEW CONFIG STUFF:
  - Unique configs for each server. A "config-<server id>.json" is generated upon the bot joining
@@ -14,6 +16,7 @@ V1.1:
  - configs.json and channels.json are checked upon boot to see if any data is missing. Missing data is replaced while maintaining things that are intact
 
 - Other lil bits:
+ - Bot will download any updates from github to a new directory within the bot's folders. This will be checked automatically on boot and once every 24 hours. The installation will be manual
  - Allow the use of emotes from other servers the bot is in
  - Kept backwards compatibility for old emote id method
  - Admins now override moderator handles

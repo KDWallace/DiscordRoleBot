@@ -7,7 +7,7 @@ from datetime import datetime
 import discord
 from discord import Member, VoiceChannel
 
-import src.core.core as core
+import core.core as core
 
 
 def approved_role_user(interaction: discord.Interaction) -> bool:

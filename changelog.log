@@ -1,3 +1,8 @@
+V1.1.1:
+- It actually works outside of a dev environment now. Go me
+ - Fixed paths for libraries
+ - Fixed batch file
+
 V1.1:
 - NEW COMMANDS ADDED:
  - /bulkaddroles <roles> <emotes> <messagelink>
@@ -22,4 +27,5 @@ V1.1:
  - Admins now override moderator handles
  - Command names now appear in log terminal
  - Added permission check for adding/removing channels from the bot check list
- - messages that have their last reaction/role removed via /removerole get deleted from channels.json
+ - Messages that have their last reaction/role removed via /removerole get deleted from channels.json
+ - Call status will now be updated on role changes as well as members joining/leaving

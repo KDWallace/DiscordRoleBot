@@ -3,8 +3,8 @@ import os
 import sys
 from datetime import datetime
 
-from src.core.update import __VERSION__
-from src.core.util import logger
+from core.update import __VERSION__
+from core.util import logger
 
 # Main path for DIR navigation for files/config
 PATH = (os.path.dirname(os.path.realpath(__file__)))[:-8]
@@ -28,8 +28,8 @@ def setup(client):
         length = int(length / 2)
     else:
         length = 0
-    print(('=' * length) + f' {version}' + ('=' * length) + f'\n   - Booted at {datetime.now().strftime("%H:%M:%S")}\n'
-                                                            f'   - Please wait...')
+    print(('=' * length) + f' {version} ' + ('=' * length) + f'\n   - Booted at {datetime.now().strftime("%H:%M:%S")}\n'
+                                                             f'   - Please wait...')
 
     # get bot token
     logger('        Obtaining token from textfile...', end='')

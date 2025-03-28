@@ -6,8 +6,7 @@ title %title%
 set version=Discord Role Bot V1.1
 
 ::Runs the actual code using the provided python exe and libraries
-::start "" /d "%~dp0.venv/Scripts" "%~dp0python.exe" src/Bot.py %version%
-python ./src/Bot.py
+"%~dp0.venv/Scripts/python.exe" "%~dp0src/Bot.py" %version%
 
 
 ::if the code stops unexpectedly, something bad probably happened...

@@ -4,10 +4,10 @@ from discord import app_commands, Member, VoiceState, VoiceChannel, HTTPExceptio
 from discord.app_commands import TransformerError
 from discord.ext import commands
 
-from src.core.core import setup
-from src.core.util import approved_role_user, approved_channel_user, get_config, check_config_integrity, \
+from core.core import setup
+from core.util import approved_role_user, approved_channel_user, get_config, check_config_integrity, \
     save_config, edit_voice_status, logger
-from src.core.update import __VERSION__, update_routine, check_version
+from core.update import __VERSION__, update_routine, check_version
 
 # stores the intents for the bot to use. To make full use of this, some of the intents must be set in the developers
 # portal for discord
@@ -452,7 +452,7 @@ async def getroles(interaction: discord.Interaction,
         return
     message = '# Roles:\n'
     for role in config_data['Role Bot'][messagelink]['Roles']:
-        message += f'- {role['Role Emote']} <@&{role['Role ID']}>\n'
+        message += f'- {role["Role Emote"]} <@&{role["Role ID"]}>\n'
     await interaction.response.send_message(message + messagelink, ephemeral=True)
 
 

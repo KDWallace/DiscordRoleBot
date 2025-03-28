@@ -6,10 +6,10 @@ import requests
 from github import Github
 
 # for checking version
-__VERSION__ = "1.1"
+__VERSION__ = "1.1.1"
 
-import src.core.core as core
-from src.core.util import logger
+import core.core as core
+from core.util import logger
 
 
 def check_version() -> str | None:

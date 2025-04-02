@@ -70,6 +70,8 @@ def update_from_github(version: str | None):
                     # if it is a file, create file with relevant binary data
                     else:
                         filename = os.path.join(directory, file_content.path)
+                        if filename.endswith('TOKEN.txt'):
+                            continue
                         if os.path.isfile(filename):
                             os.rename(filename, filename + '.old')
                         with open(filename, "wb") as f:

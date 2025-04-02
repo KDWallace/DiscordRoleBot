@@ -151,7 +151,8 @@ async def on_voice_state_update(member: Member, before: VoiceState, after: Voice
     # if the user channel has not changed
     if before.channel != after.channel:
         for channel in (before.channel, after.channel):
-            await edit_voice_status(channel)
+            if channel:
+                await edit_voice_status(channel)
 
 
 ######################################################################################################################

@@ -106,7 +106,7 @@ def check_config_integrity(filename: str, servername: str = None, entry: str = N
     if os.path.isfile(f'{core.PATH}/config/{filename}.json'):
 
         # read the file and check for missing entries. If any present then change = True
-        with open(f'{core.PATH}/config/{filename}.json', 'r') as f:
+        with open(f'{core.PATH}/config/{filename}.json', 'r', encoding='UTF-8') as f:
             old_data = json.load(f)
 
         change = False
@@ -195,14 +195,13 @@ async def edit_voice_status(channel: VoiceChannel):
     # gets biggest role
     if roles_count:
         roles = [key for key, value in sorted(roles_count.items(), key=lambda item: item[1], reverse=True)]
-
         # should the order be based on random choice in the event of a tie?
         if config_data['Priority Order']:
             role = roles[0]
         else:
             random_roles = []
             for r in roles:
-                if roles_count[r] == roles_count[roles[-1]]:
+                if roles_count[r] == roles_count[roles[0]]:
                     random_roles.append(r)
                 else:
                     break

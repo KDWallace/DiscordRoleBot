@@ -1,3 +1,10 @@
+V1.1.2:
+- Minor bug fixes
+ - Added line that ignores None statements in updating voice channel
+ - Added UTF-8 encoding
+ - Removed TOKEN.txt from auto update
+ - Fixed random selection of roles for ties
+
 V1.1.1:
 - It actually works outside of a dev environment now. Go me
  - Fixed paths for libraries

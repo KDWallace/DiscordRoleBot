@@ -6,7 +6,7 @@ import requests
 from github import Github
 
 # for checking version
-__VERSION__ = "1.1.1"
+__VERSION__ = "1.1.2"
 
 import core.core as core
 from core.util import logger
